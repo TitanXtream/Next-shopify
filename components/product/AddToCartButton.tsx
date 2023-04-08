@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import { CircularProgress } from "@material-ui/core";
-import { CartState, CheckoutType } from "lib/useCart";
+import { CartState, Checkout } from "lib/useCart";
 import { ProductContext } from "pages/products/[handle]";
 import CartDrawer from "components/product/CartDrawer";
 import { Variant } from "lib/graphql/product/getProductByHandle";
 
 type Props = {
   cartState: CartState;
-  checkout: CheckoutType;
+  checkout: Checkout;
 };
 
 const AddToCartButton: React.FC<Props> = ({ cartState, checkout }) => {
