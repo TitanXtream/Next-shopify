@@ -14,6 +14,7 @@ import Layout from "components/common/Layout";
 import FilterToolbar from "components/collections/FilterToolbar";
 import ProductList from "components/collections/ProductList";
 import { error } from "console";
+import { useRouter } from "next/router";
 
 type Props = {
   handle: string;
@@ -21,8 +22,8 @@ type Props = {
 };
 
 const CollectionPage: React.FC<Props> = ({ handle, sortBy }) => {
+  const router = useRouter();
   const [collection, setCollection] = useState<Collection | null>(null);
-  console.log(handle);
 
   const [products, setProducts] = useState<Product[] | null>(null);
   const [cursor, setCursor] = useState<string | null>(null);
@@ -40,9 +41,9 @@ const CollectionPage: React.FC<Props> = ({ handle, sortBy }) => {
         cursor
       );
     } catch (err) {
+      router.push("/error");
       console.error(err);
-
-      alert("Collections not found");
+      // alert("Collections not found");
       return;
     }
 

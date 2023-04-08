@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { CircularProgress } from "@material-ui/core";
-import { CartState, Checkout } from "lib/useCart";
+import { CartState, CheckoutType } from "lib/useCart";
 import { ProductContext } from "pages/products/[handle]";
 import CartDrawer from "components/product/CartDrawer";
+import { Variant } from "lib/graphql/product/getProductByHandle";
 
 type Props = {
   cartState: CartState;
-  checkout: Checkout;
+  checkout: CheckoutType;
 };
 
 const AddToCartButton: React.FC<Props> = ({ cartState, checkout }) => {
@@ -18,7 +19,7 @@ const AddToCartButton: React.FC<Props> = ({ cartState, checkout }) => {
     setLoading(true);
     const quantity = 1;
     await checkout.addItem(
-      (variant ? variant : product.variants[0]).id,
+      ((variant as Variant) ?? product.variants[0]).id,
       quantity
     );
     setLoading(false);
@@ -28,10 +29,7 @@ const AddToCartButton: React.FC<Props> = ({ cartState, checkout }) => {
   return (
     <>
       {loading ? (
-        <button
-          className="border border-gray-400 font-semibold inline-block text-gray-700 rounded-sm px-4 py-3 text-sm w-full"
-          onClick={onClickHandler}
-        >
+        <button className="border border-gray-400 font-semibold inline-block text-gray-700 rounded-sm px-4 py-3 text-sm w-full pointer-events-none">
           <CircularProgress
             classes={{ svg: "font-bold text-gray-400" }}
             size="1.25rem"

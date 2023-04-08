@@ -1,9 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Cart } from "shopify-buy";
+import { Cart, Checkout as CheckoutType } from "shopify-buy";
 import client from "lib/client";
 
 export type CartState = {
-  value: Cart;
+  value: CheckoutType;
   loading: boolean;
 };
 
@@ -15,7 +15,7 @@ export type Checkout = {
 };
 
 const useCart = (): [CartState, Checkout] => {
-  const [cart, setCart] = useState<Cart | null>(null);
+  const [cart, setCart] = useState<CheckoutType | null>(null);
   const [checkoutId, setCheckoutId] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -25,15 +25,20 @@ const useCart = (): [CartState, Checkout] => {
   const initializeCart = async () => {
     const id: string = localStorage.getItem("checkoutId");
 
-    let newCart: Cart;
+    let newCart: CheckoutType;
     let newCheckoutId: string;
+
     if (id) {
       newCart = await client.checkout.fetch(id);
       newCheckoutId = newCart.id as string;
     } else {
-      newCart = await client.checkout.create();
-      newCheckoutId = newCart.id as string;
-      localStorage.setItem("checkoutId", newCheckoutId);
+      try {
+        newCart = await client.checkout.create();
+        newCheckoutId = newCart.id as string;
+        localStorage.setItem("checkoutId", newCheckoutId);
+      } catch (err) {
+        console.error(err);
+      }
     }
     setCheckoutId(newCheckoutId);
     setCart(newCart);
@@ -53,6 +58,8 @@ const useCart = (): [CartState, Checkout] => {
     async (variantId: string, quantity: number) => {
       setLoading(true);
       const lineItemsToAdd = [{ variantId: variantId, quantity: quantity }];
+      console.log(lineItemsToAdd);
+
       const newCart = await client.checkout.addLineItems(
         checkoutId,
         lineItemsToAdd
@@ -85,7 +92,7 @@ const useCart = (): [CartState, Checkout] => {
   const removeItem = useCallback(
     async (lineItemId: string) => {
       const lineItemIdsToRemove = [lineItemId];
-      const newCart: Cart = await client.checkout.removeLineItems(
+      const newCart: CheckoutType = await client.checkout.removeLineItems(
         checkoutId,
         lineItemIdsToRemove
       );
@@ -103,7 +110,7 @@ const useCart = (): [CartState, Checkout] => {
   const buyNow = useCallback(
     async (variantId: string, quantity: number) => {
       const lineItemsToAdd = [{ variantId: variantId, quantity: quantity }];
-      const newCart: Cart = await client.checkout.addLineItems(
+      const newCart: CheckoutType = await client.checkout.addLineItems(
         checkoutId,
         lineItemsToAdd
       );

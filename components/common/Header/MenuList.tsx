@@ -2,6 +2,7 @@ import { ArrowForward } from "@material-ui/icons";
 import { log } from "console";
 import client from "lib/client";
 import { getCollectionName } from "lib/graphql/collection/getCollectionNames";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -12,15 +13,21 @@ const MenuList: React.FC<Props> = ({ visibility }) => {
   const [collectionNames, setCollectionNames] = useState<string[]>([]);
 
   useEffect(() => {
-    getCollectionName().then((cNames) => {
-      setCollectionNames(cNames);
-    });
+    getCollectionName()
+      .then((cNames) => {
+        setCollectionNames(cNames);
+      })
+      .catch((err) => {
+        console.error(err);
+
+        setCollectionNames([]);
+      });
   }, []);
 
   return (
     <nav className={`md:text-center ${visibility}`}>
       <ul>
-        {collectionNames.length > 0 ? (
+        {collectionNames.length > 0 &&
           collectionNames?.map((title, idx) => (
             <li
               className="border-t md:border-t-0 border-gray-20 md:inline-block"
@@ -34,18 +41,7 @@ const MenuList: React.FC<Props> = ({ visibility }) => {
                 {title[0].toUpperCase() + title.slice(1)}
               </a>
             </li>
-          ))
-        ) : (
-          <li className="border-t md:border-t-0 border-gray-200 md:inline-block">
-            <a
-              href="/"
-              className="block mx-auto px-8 md:px-4 py-4 text-gray-700 hover:text-opacity-70 hover:underline"
-              style={{ maxWidth: "640px" }}
-            >
-              All
-            </a>
-          </li>
-        )}
+          ))}
       </ul>
     </nav>
   );

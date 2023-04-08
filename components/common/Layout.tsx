@@ -12,6 +12,7 @@ const Layout: React.FC<Props> = ({
   children,
   title = "Nextjs Shopify Store",
 }) => {
+  // alert("Layout");
   return (
     <>
       <Head>

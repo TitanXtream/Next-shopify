@@ -8,7 +8,8 @@ const CartFooter: React.FC = () => {
       <div>
         <span>Subtotal</span>
         <span className="ml-2">
-          ₹{Number(cartState.value.subtotalPrice).toLocaleString("en-IN")}{" "}
+          ₹
+          {Number(cartState.value.subtotalPrice.amount).toLocaleString("en-IN")}{" "}
           Rupees
         </span>
       </div>

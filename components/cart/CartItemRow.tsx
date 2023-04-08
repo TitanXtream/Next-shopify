@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
 import Image from "next/image";
-import { LineItem } from "shopify-buy";
+import { CheckoutLineItem, LineItem } from "shopify-buy";
 import { CartContext } from "pages/cart";
 import { QuantityInput } from "components/cart/QuantityInput";
 
 type Props = {
-  item: LineItem;
+  item: CheckoutLineItem;
 };
 
 const CartItemRow: React.FC<Props> = ({ item }) => {
   const { cartState, checkout } = useContext(CartContext);
+  console.log(item);
 
-  const { handle, quantity, title, variant } = item;
-  const price = Number(item.variant.price);
+  const { quantity, title, variant } = item;
+  const price = Number(item.variant.price.amount);
+
   const subtotal = price * quantity;
   const imgSrc = variant.image.src;
 

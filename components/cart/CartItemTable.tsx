@@ -19,7 +19,7 @@ const CartItemTable = () => {
             quantity
           </th>
           <th className="font-normal md:table-cell hidden px-6 py-8 pr-0 text-gray-600 text-right text-sm w-1/6">
-            number total amount
+            total amount
           </th>
         </tr>
       </thead>

@@ -13,6 +13,8 @@ const Header: React.FC = () => {
     setOpened(opened);
   };
 
+  // alert("Header");
+
   return (
     <header className="header border-b border-gray-200">
       <Head>

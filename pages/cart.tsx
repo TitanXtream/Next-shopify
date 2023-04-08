@@ -31,7 +31,7 @@ const CartPage: React.FC = () => {
           <section className="container">
             {cartState.loading ? (
               Array.from(new Array(3)).map((_, idx) => (
-                <SleltonLoader key={idx} />
+                <SkeletonLoader key={idx} />
               ))
             ) : (
               <div className="text-center">
@@ -74,7 +74,7 @@ const CartPage: React.FC = () => {
 
 export default CartPage;
 
-const SleltonLoader = () => (
+const SkeletonLoader = () => (
   <div className="flex justify-center mb-5">
     <div className="flex justify-center w-full items-start">
       <div className="flex-grow-0 flex-shrink-0 mr-4 md:mr-6 w-16 md:w-24">
