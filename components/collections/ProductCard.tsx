@@ -14,7 +14,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     <div className="product-card bg-gray-100">
       <div className="product-card__inner flex flex-col justify-between h-full">
         <figure
-          className="product-card__image flex items-center justify-center h-full p-1"
+          className="product-card__image flex items-center justify-center  hover:scale-105 transform duration-100 h-full p-1"
           style={{ margin: 0 }}
         >
           <a href={`/products/${product.handle}`}>
